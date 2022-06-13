@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -12,6 +13,7 @@ Route::prefix('v1')->group(function () {
     Route::apiResources([
         'posts'      => PostController::class,
         'categories' => CategoryController::class,
+        'tags'       => TagController::class,
     ], [
         'only' => ['index', 'show']
     ]);
@@ -21,6 +23,7 @@ Route::prefix('v1')->group(function () {
         Route::apiResources([
             'posts'      => PostController::class,
             'categories' => CategoryController::class,
+            'tags'       => TagController::class,
         ], [
             'except' => ['index', 'show']
         ]);

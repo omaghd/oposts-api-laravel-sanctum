@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,5 +29,7 @@ class DatabaseSeeder extends Seeder
         Category::create(['name' => 'Category 3', 'slug' => 'cat-3']);
         // Categories with random parent
         Category::factory()->count(24)->create();
+
+        Tag::factory()->count(100)->create();
     }
 }
