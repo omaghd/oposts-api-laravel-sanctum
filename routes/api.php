@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     // Public routes
-    Route::post('auth', AuthController::class);
+    Route::post('auth', [AuthController::class, 'auth']);
 
     Route::apiResources([
         'posts'      => PostController::class,
@@ -84,6 +84,8 @@ Route::prefix('v1')->group(function () {
                 Route::patch('post/{postId}', 'attach');
                 Route::delete('post/{postId}', 'detach');
             });
+
+        Route::post('logout', [AuthController::class, 'logout']);
     });
 });
 

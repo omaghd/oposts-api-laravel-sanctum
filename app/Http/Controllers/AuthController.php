@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function __invoke(Request $request)
+    public function auth(Request $request)
     {
         $request->validate([
             'email'    => 'required|email',
@@ -25,5 +25,11 @@ class AuthController extends Controller
         }
 
         return $user->createToken('oposts')->plainTextToken;
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Logged out!']);
     }
 }
