@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\Post;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
     public function index()
     {
-        return response()->json(Post::latest()->paginate(9));
+        $posts = auth('sanctum')->check()
+            ? Post::latest()->paginate(9)
+            : Post::where('status', 'public')
+                ->latest()
+                ->paginate(9);
+
+        return response()->json($posts);
     }
 
     public function store(StorePostRequest $request)
@@ -22,7 +28,11 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = Post::find($id);
+        $post = auth('sanctum')->check()
+            ? Post::find($id)
+            : Post::where('id', $id)
+                ->where('status', 'public')
+                ->first();
 
         if (!$post) {
             return response()->json(
