@@ -43,5 +43,14 @@ class DatabaseSeeder extends Seeder
                 $categories->random(rand(1, 4))->pluck('id')->toArray()
             );
         });
+
+        $tags = Tag::all();
+
+        // Attach up to 10 categories
+        Post::all()->each(function ($post) use ($tags) {
+            $post->tags()->attach(
+                $tags->random(rand(1, 10))->pluck('id')->toArray()
+            );
+        });
     }
 }
