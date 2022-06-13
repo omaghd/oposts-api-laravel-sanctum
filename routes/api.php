@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +10,8 @@ Route::prefix('v1')->group(function () {
     Route::post('auth', AuthController::class);
 
     Route::apiResources([
-        'posts' => PostController::class,
+        'posts'      => PostController::class,
+        'categories' => CategoryController::class,
     ], [
         'only' => ['index', 'show']
     ]);
@@ -17,7 +19,8 @@ Route::prefix('v1')->group(function () {
     // Protected routes
     Route::middleware('auth:sanctum')->group(function () {
         Route::apiResources([
-            'posts' => PostController::class,
+            'posts'      => PostController::class,
+            'categories' => CategoryController::class,
         ], [
             'except' => ['index', 'show']
         ]);

@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,5 +21,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Post::factory()->count(36)->create();
+
+        // Categories without parent
+        Category::create(['name' => 'Category 1', 'slug' => 'cat-1']);
+        Category::create(['name' => 'Category 2', 'slug' => 'cat-2']);
+        Category::create(['name' => 'Category 3', 'slug' => 'cat-3']);
+        // Categories with random parent
+        Category::factory()->count(24)->create();
     }
 }
