@@ -19,21 +19,18 @@ Route::prefix('v1')->group(function () {
         'posts'      => PostController::class,
         'categories' => CategoryController::class,
         'tags'       => TagController::class,
-    ], [
-        'only' => ['index', 'show']
-    ]);
+    ], ['only' => ['index', 'show']]);
 
     Route::apiResource('comments', CommentController::class)
         ->only('index', 'show', 'store');
 
-    // Get a single post's categories
-    Route::get('post/{id}/categories', [PostCategoriesController::class, 'index']);
-    // Get a single post's tags
-    Route::get('post/{id}/tags', [PostTagsController::class, 'index']);
+    Route::prefix('post/{id}')->group(function () {
+        Route::get('categories', [PostCategoriesController::class, 'index']);
+        Route::get('tags', [PostTagsController::class, 'index']);
+    });
 
-    // Get a single category's posts
     Route::get('category/{id}/posts', [CategoryPostsController::class, 'index']);
-    // Get a single category's posts
+
     Route::get('tag/{id}/posts', [TagPostsController::class, 'index']);
 
     // Protected routes
@@ -42,41 +39,51 @@ Route::prefix('v1')->group(function () {
             'posts'      => PostController::class,
             'categories' => CategoryController::class,
             'tags'       => TagController::class,
-        ], [
-            'except' => ['index', 'show']
-        ]);
+        ], ['except' => ['index', 'show']]);
 
-        // Posts
-        Route::get('trashed/posts', [PostController::class, 'getTrashed']);
-        Route::delete('permanently-delete/post/{id}', [PostController::class, 'permanentlyDelete']);
-        Route::patch('restore/post/{id}', [PostController::class, 'restore']);
-
-        // Comments
-        Route::prefix('comments')->group(function () {
-            Route::delete('{id}', [CommentController::class, 'destroy']);
-            Route::patch('{id}/approve', [CommentController::class, 'approve']);
-            Route::patch('{id}/disapprove', [CommentController::class, 'disapprove']);
+        Route::controller(PostController::class)->group(function () {
+            Route::get('trashed/posts', 'getTrashed');
+            Route::delete('permanently-delete/post/{id}', 'permanentlyDelete');
+            Route::patch('restore/post/{id}', 'restore');
         });
 
-        // Attach a category to a post
-        Route::patch('post/{postId}/category/{categoryId}', [PostCategoriesController::class, 'attach']);
-        // Attach a tag to a post
-        Route::patch('post/{postId}/tag/{tagId}', [PostTagsController::class, 'attach']);
+        Route::prefix('comments')
+            ->controller(CommentController::class)
+            ->group(function () {
+                Route::delete('{id}', 'destroy');
+                Route::patch('{id}/approve', 'approve');
+                Route::patch('{id}/disapprove', 'disapprove');
+            });
 
-        // Detach a category from a post
-        Route::delete('post/{postId}/category/{categoryId}', [PostCategoriesController::class, 'detach']);
-        // Detach a tag from a post
-        Route::delete('post/{postId}/tag/{tagId}', [PostTagsController::class, 'detach']);
+        Route::prefix('post/{postId}')->group(function () {
+            Route::prefix('category')
+                ->controller(PostCategoriesController::class)
+                ->group(function () {
+                    Route::patch('{categoryId}', 'attach');
+                    Route::delete('{categoryId}', 'detach');
+                });
 
-        // Attach a post to a category
-        Route::patch('category/{categoryId}/post/{postId}', [CategoryPostsController::class, 'attach']);
-        // Attach a post to a tag
-        Route::patch('tag/{tagId}/post/{postId}', [TagPostsController::class, 'attach']);
+            Route::prefix('tag')
+                ->controller(PostTagsController::class)
+                ->group(function () {
+                    Route::patch('{tagId}', 'attach');
+                    Route::delete('{tagId}', 'detach');
+                });
+        });
 
-        // Detach a post from a category
-        Route::delete('category/{categoryId}/post/{postId}', [CategoryPostsController::class, 'detach']);
-        // Detach a post from a tag
-        Route::delete('tag/{tagId}/post/{postId}', [TagPostsController::class, 'detach']);
+        Route::prefix('category/{categoryId}')
+            ->controller(CategoryPostsController::class)
+            ->group(function () {
+                Route::patch('post/{postId}', 'attach');
+                Route::delete('post/{postId}', 'detach');
+            });
+
+        Route::prefix('tag/{tagId}')
+            ->controller(TagPostsController::class)
+            ->group(function () {
+                Route::patch('post/{postId}', 'attach');
+                Route::delete('post/{postId}', 'detach');
+            });
     });
 });
 
