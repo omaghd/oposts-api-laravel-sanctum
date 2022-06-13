@@ -17,6 +17,8 @@ class Category extends Model
         'parent_id',
     ];
 
+    protected $hidden = ['pivot'];
+
     public function parent()
     {
         return $this->belongsTo(Category::class);
@@ -25,5 +27,10 @@ class Category extends Model
     public function child()
     {
         return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'posts_categories');
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PostCategoriesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,9 @@ Route::prefix('v1')->group(function () {
 
     Route::apiResource('comments', CommentController::class)
         ->only('index', 'show', 'store');
+
+    // Get a single post's categories
+    Route::get('post/{id}/categories', [PostCategoriesController::class, 'index']);
 
     // Protected routes
     Route::middleware('auth:sanctum')->group(function () {
@@ -43,6 +47,11 @@ Route::prefix('v1')->group(function () {
             Route::patch('{id}/approve', [CommentController::class, 'approve']);
             Route::patch('{id}/disapprove', [CommentController::class, 'disapprove']);
         });
+
+        // Attach a category to a post
+        Route::patch('post/{postId}/category/{categoryId}', [PostCategoriesController::class, 'attach']);
+        // Detach a category to a post
+        Route::delete('post/{postId}/category/{categoryId}', [PostCategoriesController::class, 'detach']);
     });
 });
 

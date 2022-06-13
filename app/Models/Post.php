@@ -22,4 +22,9 @@ class Post extends Model
         'meta_keywords',
         'published_at',
     ];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'posts_categories');
+    }
 }

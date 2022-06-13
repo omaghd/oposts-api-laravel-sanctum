@@ -34,5 +34,14 @@ class DatabaseSeeder extends Seeder
         Tag::factory()->count(100)->create();
 
         Comment::factory()->count(150)->create();
+
+        $categories = Category::all();
+
+        // Attach up to 4 categories
+        Post::all()->each(function ($post) use ($categories) {
+            $post->categories()->attach(
+                $categories->random(rand(1, 4))->pluck('id')->toArray()
+            );
+        });
     }
 }
