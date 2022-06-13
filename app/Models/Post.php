@@ -23,6 +23,8 @@ class Post extends Model
         'published_at',
     ];
 
+    protected $hidden = ['pivot'];
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'posts_categories');
