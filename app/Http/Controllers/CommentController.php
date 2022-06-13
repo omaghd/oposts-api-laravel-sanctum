@@ -10,7 +10,7 @@ class CommentController extends Controller
 {
     public function index()
     {
-        if (request()->filled('not_approved') && request()->bearerToken()) {
+        if (request()->filled('not_approved') && auth('sanctum')->check()) {
             $comments = Comment::where('status', Comment::NOT_APPROVED);
         } else {
             $comments = Comment::where('status', Comment::APPROVED);
