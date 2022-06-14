@@ -48,11 +48,11 @@ I would appreciate it if you consider giving me a star for this repo ⭐
 | id         | bigint   |
 | name       | string   |
 | phone      | string   |
-| email      | text     |
-| ip         | text     |
+| email      | string   |
+| ip         | ip       |
 | user_agent | text     |
-| status     | string   |
-| body       | string   |
+| status     | boolean  |
+| body       | text     |
 | created_at | datetime |
 | updated_at | datetime |
 
