@@ -69,7 +69,7 @@ I would appreciate it if you consider giving me a star for this repo ⭐
 
 ## Requirements
 
-- PHP > 8.1
+- PHP >=  8.1
 - Laravel 9
 - PostgreSQL (or any supported DBMS)
 
@@ -133,8 +133,8 @@ php artisan serve
 After the database seeding, the default user credentials are:
 
 ```
-Email : user@user
-Password : password
+Email: user@user
+Password: password
 ```
 
 ## Usage
