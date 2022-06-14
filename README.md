@@ -175,12 +175,14 @@ GET|HEAD        api/v1/posts/{post} ............................... posts.show �
 GET|HEAD        api/v1/post/{id}/categories ......................... PostCategoriesController@index  
 GET|HEAD        api/v1/post/{id}/tags ..................................... PostTagsController@index  
 GET|HEAD        api/v1/post/{id}/comments ................................... PostCommentsController  
+GET|HEAD        api/v1/post/{id}/comments?not_approved=1 .................... PostCommentsController  
 ```
 
 #### Comments
 
 ```
 GET|HEAD        api/v1/comments ........................... comments.index › CommentController@index  
+GET|HEAD        api/v1/comments?not_approved=1 ............ comments.index › CommentController@index  
 POST            api/v1/comments ........................... comments.store › CommentController@store  
 GET|HEAD        api/v1/comments/{comment} ................... comments.show › CommentController@show  
 ```
