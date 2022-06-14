@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryPostsController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostCategoriesController;
+use App\Http\Controllers\PostCommentsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostTagsController;
 use App\Http\Controllers\TagController;
@@ -27,6 +28,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('post/{id}')->group(function () {
         Route::get('categories', [PostCategoriesController::class, 'index']);
         Route::get('tags', [PostTagsController::class, 'index']);
+        Route::get('comments', PostCommentsController::class);
     });
 
     Route::get('category/{id}/posts', [CategoryPostsController::class, 'index']);
