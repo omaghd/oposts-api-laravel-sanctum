@@ -4,6 +4,69 @@ Posts API, built with `Laravel 9` & `Laravel Sanctum`.
 
 I would appreciate it if you consider giving me a star for this repo ⭐
 
+## Database structure
+
+### Posts
+
+| Field name       | Type     |
+|------------------|----------|
+| id               | bigint   |
+| title            | string   |
+| slug             | string   |
+| excerpt          | text     |
+| body             | text     |
+| cover            | text     |
+| status           | string   |
+| meta_title       | string   |
+| meta_description | text     |
+| meta_keywords    | text     |
+| published_at     | datetime |
+| created_at       | datetime |
+| updated_at       | datetime |
+
+### Categories
+
+| Field name | Type   |
+|------------|--------|
+| id         | bigint |
+| name       | string |
+| slug       | string |
+| parent_id  | bigint |
+
+### Tags
+
+| Field name | Type   |
+|------------|--------|
+| id         | bigint |
+| name       | string |
+| slug       | string |
+
+### Comments
+
+| Field name | Type     |
+|------------|----------|
+| id         | bigint   |
+| name       | string   |
+| phone      | string   |
+| email      | text     |
+| ip         | text     |
+| user_agent | text     |
+| status     | string   |
+| body       | string   |
+| created_at | datetime |
+| updated_at | datetime |
+
+### Relationships
+
+- A post belongs to many categories
+- A post belongs to many tags
+- A post have many comments
+- A category belongs to many posts
+- A category have one parent
+- A category have zero or many child
+- A tag belongs to many posts
+- A comment belong to one post
+
 ## Requirements
 
 - PHP > 8.1
