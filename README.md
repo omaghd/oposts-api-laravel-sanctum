@@ -174,6 +174,7 @@ GET|HEAD        api/v1/posts .................................... posts.index â€
 GET|HEAD        api/v1/posts/{post} ............................... posts.show â€º PostController@show  
 GET|HEAD        api/v1/post/{id}/categories ......................... PostCategoriesController@index  
 GET|HEAD        api/v1/post/{id}/tags ..................................... PostTagsController@index  
+GET|HEAD        api/v1/post/{id}/comments ................................... PostCommentsController  
 ```
 
 #### Comments
